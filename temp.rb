@@ -1,0 +1,1 @@
+rails g model User username first_name email password_digest about:text age:integer gender looking_for_gender:integer looking_for_role:integer
