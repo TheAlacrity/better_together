@@ -7,7 +7,7 @@ class Api::UserHangoutsController < ApplicationController
   def create
     @user_hangout = UserHangout.new(
                                     user_id: params[:user_id],
-                                    category_id: params[:category_id]
+                                    hangout_id: params[:hangout_id]
                                     )
     if @user_hangout.save
       render 'show.json.jbuilder'
@@ -25,7 +25,7 @@ class Api::UserHangoutsController < ApplicationController
     @user_hangout = UserHangout.find(params[:id])
 
     @user_hangout.user_id = params[:user_id] || @user_hangout.user_id
-    @user_hangout.category_id = params[:user_id] || @user_hangout.category_id
+    @user_hangout.hangout_id = params[:user_id] || @user_hangout.hangout_id
 
     if @user_hangout.save
       render 'show.json.jbuilder'
