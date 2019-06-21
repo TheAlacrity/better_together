@@ -48,6 +48,6 @@ class Api::HangoutsController < ApplicationController
   def destroy
     @hangout = Hangout.find(params[:id])
     @hangout.destroy
-    render json: { message: "Successfully destroyed hangout #{@hangout.name} with id #{hangout.id}"}
+    render json: { message: "Successfully destroyed hangout #{@hangout.name} with id #{@hangout.id}"}
   end
 end

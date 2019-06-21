@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  belongs_to :hangout
+  has_many :hangouts
 
   validates :name, uniqueness: true
 

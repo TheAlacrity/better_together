@@ -23,5 +23,8 @@ Rails.application.routes.draw do
   patch '/user_hangouts/:id' => 'user_hangouts#update'
   delete '/user_hangouts/:id' => 'user_hangouts#destroy'
 
-
+  get '/requests' => 'requests#index'
+  post '/requests' => 'requests#create'
+  get '/requests/:id' => 'requests#show'
+  delete '/requests/:id' => 'requests#destroy'
 end
