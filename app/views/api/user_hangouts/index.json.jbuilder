@@ -1,0 +1,1 @@
+json.array! @user_hangouts, partial: 'user_hangout', as: :user_hangout

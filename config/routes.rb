@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   patch '/categories/:id' => 'categories#update'
   delete '/categories/:id' => 'categories#destroy'
 
-  
+  get 'user_hangouts' => 'user_hangouts#index'
+  post 'user_hangouts' => 'user_hangouts#create'
+  get '/user_hangouts/:id' => 'user_hangouts#show'
+  patch '/user_hangouts/:id' => 'user_hangouts#update'
+  delete '/user_hangouts/:id' => 'user_hangouts#destroy'
 
 
 end
