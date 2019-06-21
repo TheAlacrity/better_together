@@ -1,0 +1,1 @@
+json.partial! @hangout, partial: "hangout", as: :hangout

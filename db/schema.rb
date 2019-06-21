@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_211243) do
+ActiveRecord::Schema.define(version: 2019_06_21_163515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "name", default: 0
+  end
+
+  create_table "hangouts", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_hangouts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "hangout_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
@@ -22,11 +43,11 @@ ActiveRecord::Schema.define(version: 2019_06_20_211243) do
     t.string "password_digest"
     t.text "about"
     t.integer "age"
-    t.string "gender"
     t.integer "looking_for_gender"
     t.integer "looking_for_role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "gender", default: 0
   end
 
 end

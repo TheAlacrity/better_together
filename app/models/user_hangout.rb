@@ -1,0 +1,2 @@
+class UserHangout < ApplicationRecord
+end

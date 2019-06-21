@@ -1,0 +1,1 @@
+json.partial! @category, partial: "category", as: :category
