@@ -8,10 +8,7 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true
 
-  validates :password, presence: true
-  validates :password_confirmation, presence: true
-
-  enum gender: {undefined: 0, male: 1, female: 2, prefer_not_to_say: 3}
-  enum looking_for_gender: {any: 0, prefer_male: 1, prefer_female: 2}
+  enum gender: {undefined: 0, male: 1, female: 2}, _prefix: true
+  enum looking_for_gender: {undefined: 0, male: 1, female: 2}, _prefix: true
   enum looking_for_role: {both: 0, romance: 1, friendship: 2}
 end
