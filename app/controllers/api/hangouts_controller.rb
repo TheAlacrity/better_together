@@ -1,5 +1,5 @@
 class Api::HangoutsController < ApplicationController
-  # before_action :authenticate_user
+  before_action :authenticate_user
 
   def index
     @hangouts = Hangout.all
@@ -7,12 +7,19 @@ class Api::HangoutsController < ApplicationController
   end
 
   def create
-    # if current_user
-      @hangout = Hangout.new(
-                             name: params[:name],
-                             address: params[:address],
-                             category_id: params[:category_id]
-                             )
+    if current_user
+      @hangout = Hangout.find_or_create_by(name: params[:name]) do |hangout|
+        hangout.name = params[:name]
+        hangout.address = params[:address]
+        hangout.category_id = params[:category_id]
+      end
+
+
+      # @hangout = Hangout.new(
+      #                        name: params[:name],
+      #                        address: params[:address],
+      #                        category_id: params[:category_id]
+      #                        )
 
       if @hangout.save
         render 'show.json.jbuilder'
@@ -20,9 +27,9 @@ class Api::HangoutsController < ApplicationController
         render json: { errors: @hangout.errors.full_messages }, status: :uprocessable_entity
       end
 
-    # else
-    #   render json: {}, status: :unauthorized
-    # end
+    else
+      render json: {message: "You must be logged in to search or create a hangout."}
+    end
   end
 
   def show
