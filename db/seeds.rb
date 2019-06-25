@@ -12,10 +12,10 @@ geralt = User.new(
                 password: "password",
                 password_confirmation: "password",
                 about: "The Butcher of Blaviken.",
-                age: "134",
-                gender: "male",
-                looking_for_gender: "female",
-                looking_for_role: "romance"
+                age: 134,
+                gender: 1,
+                looking_for_gender: 2,
+                looking_for_role: 1
                )
 geralt.save
 
@@ -26,10 +26,10 @@ yen = User.new(
                 password: "password",
                 password_confirmation: "password",
                 about: "Smells of Lilac and Gooseberries",
-                age: "130",
-                gender: "female",
+                age: 130,
+                gender: 2,
                 looking_for_gender: 0,
-                looking_for_role: "romance"
+                looking_for_role: 1
                )
 yen.save
 
@@ -40,8 +40,8 @@ ciri = User.new(
                 password: "password",
                 password_confirmation: "password",
                 about: "The Lady of Space and Time",
-                age: "21",
-                gender: "female",
+                age: 21,
+                gender: 2,
                 looking_for_gender: 0,
                 looking_for_role: 0
                )
@@ -54,9 +54,9 @@ jeff = User.new(
                 password: "password",
                 password_confirmation: "password",
                 about: "The Alacrity",
-                age: "33",
-                gender: "male",
-                looking_for_gender: "female",
+                age: 33,
+                gender: 1,
+                looking_for_gender: 2,
                 looking_for_role: 0
                )
 jeff.save
@@ -68,14 +68,54 @@ sessions = User.new(
                 password: "password",
                 password_confirmation: "password",
                 about: "Jefferson Beauregard Sessions",
-                age: "70",
-                gender: "male",
-                looking_for_gender: "female",
-                looking_for_role: "romance"
+                age: 70,
+                gender: 1,
+                looking_for_gender: 2,
+                looking_for_role: 1
                )
 sessions.save
 
-1000.times do
+400.times do # Create 400 fake male users
+  name = Faker::Name.unique.male_first_name
+  about_me = Faker::Hacker.say_something_smart
+
+  user = User.new(
+                  username: "#{name}",
+                  first_name: "#{name}",
+                  email: "#{name}@gmail.com",
+                  password: "password",
+                  password_confirmation: "password",
+                  about: "#{about_me}",
+                  age: rand(18..85),
+                  gender: 1,
+                  looking_for_gender: rand(0..2),
+                  looking_for_role: rand(0..2)
+                  )
+  user.save
+  puts "user num: #{user.id}"
+end
+
+400.times do # Create 400 fake female users
+  name = Faker::Name.unique.female_first_name
+  about_me = Faker::Hacker.say_something_smart
+
+  user = User.new(
+                  username: "#{name}",
+                  first_name: "#{name}",
+                  email: "#{name}@gmail.com",
+                  password: "password",
+                  password_confirmation: "password",
+                  about: "#{about_me}",
+                  age: rand(18..85),
+                  gender: 2,
+                  looking_for_gender: rand(0..2),
+                  looking_for_role: rand(0..2)
+                  )
+  user.save
+  puts "user num: #{user.id}"
+end
+
+400.times do # Create 100 prefer_not_to_say users
   name = Faker::Name.unique.first_name
   about_me = Faker::Hacker.say_something_smart
 
@@ -87,13 +127,12 @@ sessions.save
                   password_confirmation: "password",
                   about: "#{about_me}",
                   age: rand(18..85),
-                  gender: rand(0..2),
+                  gender: 0,
                   looking_for_gender: rand(0..2),
                   looking_for_role: rand(0..2)
                   )
-  user.save # create fake users
+  user.save
   puts "user num: #{user.id}"
-
 end
 
 puts "Users done, starting categories"

@@ -8,10 +8,21 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true
 
-  enum gender: {undefined: 0, male: 1, female: 2}, _prefix: true
-  enum looking_for_gender: {undefined: 0, male: 1, female: 2}, _prefix: true
-  enum looking_for_role: {both: 0, romance: 1, friendship: 2}
+  enum gender: {prefer_not_say: 0, men: 1, women: 2}, _prefix: true
+  enum looking_for_gender: {both_men_and_women: 0, men: 1, women: 2}, _prefix: true
+  enum looking_for_role: {both_friendship_and_romance: 0, romance: 1, friendship: 2}
 
+  def friendly_gender
+    gender.gsub("_", " ")
+  end
+
+  def friendly_looking_for_role
+    looking_for_role.gsub("_", " ")
+  end
+
+  def friendly_looking_for_gender
+    looking_for_gender.gsub("_", " ")
+  end
 
   def search_by_preferences
     my_hangout_ids = self.user_hangouts.pluck(:hangout_id)
@@ -20,14 +31,14 @@ class User < ApplicationRecord
     denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
     denied_ids = denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
     
-    matched_user_ids.delete(denied_ids)
+    ids_to_check = matched_user_ids - denied_ids
 
-    results = matched_user_ids.reject{|id| denied_ids.include? id}
+    if ids_to_check.any?
+      User.where(id: ids_to_check).where("gender = ? OR gender = 0", looking_for_gender.to_i)
+    else
+      []
+    end
   end
 
-  def find_denied_requests
-    denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
-    denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
-  end
+
 end
-# User.find(3).find_denied_requests

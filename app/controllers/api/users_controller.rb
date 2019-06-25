@@ -2,17 +2,16 @@ class Api::UsersController < ApplicationController
   before_action :authenticate_user, only: [:index, :show, :update, :destroy]
 
   def index
+    search_by_current_user = params[:by_user]
+    limit_results = params[:limit]
 
-    # gender = params[:looking_for_gender]
-    # role = params[:looking_for_role]
+    @users = User.all
 
-    @users = current_user.search_by_preferences
-
-    # @users.each do |user|
-    #   if user.status == 2
-    #     @users.delete[user]
-    #   end      
-    # end
+    if search_by_current_user == "true" && limit_results
+      @users = current_user.search_by_preferences.limit(limit_results)
+    elsif search_by_current_user == "true"
+      @users = current_user.search_by_preferences
+    end
 
     render 'index.json.jbuilder'
   end
