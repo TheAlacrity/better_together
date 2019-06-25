@@ -3,6 +3,8 @@ Hangout.delete_all
 Category.delete_all
 UserHangout.delete_all
 
+puts "started users"
+
 geralt = User.new(
                 username: "Geralt of Rivia",
                 first_name: "Geralt",
@@ -12,7 +14,7 @@ geralt = User.new(
                 about: "The Butcher of Blaviken.",
                 age: "134",
                 gender: "male",
-                looking_for_gender: "prefer_female",
+                looking_for_gender: "female",
                 looking_for_role: "romance"
                )
 geralt.save
@@ -27,7 +29,7 @@ yen = User.new(
                 age: "130",
                 gender: "female",
                 looking_for_gender: 0,
-                looking_for_role: 0
+                looking_for_role: "romance"
                )
 yen.save
 
@@ -41,14 +43,66 @@ ciri = User.new(
                 age: "21",
                 gender: "female",
                 looking_for_gender: 0,
-                looking_for_role: "friendship"
+                looking_for_role: 0
                )
 ciri.save
 
-unspecified_category = Category.new(
+jeff = User.new(
+                username: "Alacrity",
+                first_name: "Jeff",
+                email: "jeff@gmail.com",
+                password: "password",
+                password_confirmation: "password",
+                about: "The Alacrity",
+                age: "33",
+                gender: "male",
+                looking_for_gender: "female",
+                looking_for_role: 0
+               )
+jeff.save
+
+sessions = User.new(
+                username: "Sessions",
+                first_name: "Jeff",
+                email: "sessions@gmail.com",
+                password: "password",
+                password_confirmation: "password",
+                about: "Jefferson Beauregard Sessions",
+                age: "70",
+                gender: "male",
+                looking_for_gender: "female",
+                looking_for_role: "romance"
+               )
+sessions.save
+
+1000.times do
+  name = Faker::Name.unique.first_name
+  about_me = Faker::Hacker.say_something_smart
+
+  user = User.new(
+                  username: "#{name}",
+                  first_name: "#{name}",
+                  email: "#{name}@gmail.com",
+                  password: "password",
+                  password_confirmation: "password",
+                  about: "#{about_me}",
+                  age: rand(18..85),
+                  gender: rand(0..2),
+                  looking_for_gender: rand(0..2),
+                  looking_for_role: rand(0..2)
+                  )
+  user.save # create fake users
+  puts "user num: #{user.id}"
+
+end
+
+puts "Users done, starting categories"
+
+
+undefined_category = Category.new(
                                    name: 0
                                    )
-unspecified_category.save
+undefined_category.save
 
 dining = Category.new(
                      name: "dining"
@@ -64,6 +118,9 @@ active_or_exercise = Category.new(
                                  name: "active_or_exercise"
                                  )
 active_or_exercise.save
+
+
+puts "categories done, starting hangouts"
 
 hangout_1 = Hangout.new(
                        name: "Prairie Moon",
@@ -93,6 +150,14 @@ hangout_4 = Hangout.new(
                        )
 hangout_4.save
 
+hangout_5 = Hangout.new(
+                       name: "Budweiser Stadium",
+                       address: "1 Stadium Drive, Chicago, IL",
+                       category_id: entertainment.id
+                       )
+hangout_5.save
+
+puts "hangouts done, starting user_hangout connections"
 
 
 user_hangout = UserHangout.new(
@@ -102,6 +167,18 @@ user_hangout = UserHangout.new(
 user_hangout.save
 
 user_hangout = UserHangout.new(
+                              user_id: geralt.id,
+                              hangout_id: hangout_5.id
+                              )
+user_hangout.save
+
+user_hangout = UserHangout.new(
+                              user_id: yen.id,
+                              hangout_id: hangout_5.id
+                              )
+user_hangout.save
+
+user_hangout = UserHangout.new(
                               user_id: yen.id,
                               hangout_id: hangout_3.id
                               )
@@ -124,6 +201,30 @@ user_hangout = UserHangout.new(
                               hangout_id: hangout_2.id
                               )
 user_hangout.save
+
+# hangouts = Hangout.all
+hangouts_ids = Hangout.pluck(:id)
+# hangouts.each do |hangout|
+#   hangouts_ids << hangout.id
+# end
+
+user_ids = User.pluck(:id)
+# users_ids = []
+# users.each do |user|
+#   users_ids << user.id
+# end
+
+1000.times do
+  user_hangout = UserHangout.new(
+                  user_id: users_ids.sample,
+                  hangout_id: hangouts_ids.sample
+                  )
+  user_hangout.save # create random user hangout relationships
+  puts "hangout num: #{user_hangout.id}"
+end
+
+puts "user_hangout connections done, requests starting"
+
 
 request = Request.new(                   
                      requester_id: ciri.id,
@@ -132,3 +233,32 @@ request = Request.new(
                      )
 request.save
 
+request = Request.new(                   
+                     requester_id: jeff.id,
+                     requestee_id: ciri.id,
+                     status: 0
+                     )
+request.save
+
+request = Request.new(                   
+                     requester_id: ciri.id,
+                     requestee_id: jeff.id,
+                     status: 0
+                     )
+request.save
+
+request = Request.new(                   
+                     requester_id: sessions.id,
+                     requestee_id: ciri.id,
+                     status: 0
+                     )
+request.save
+
+request = Request.new(                   
+                     requester_id: ciri.id,
+                     requestee_id: sessions.id,
+                     status: 2
+                     )
+request.save
+
+puts "all done"
