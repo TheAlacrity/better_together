@@ -247,7 +247,7 @@ user_ids = User.pluck(:id)
 
 1000.times do
   user_hangout = UserHangout.new(
-                  user_id: users_ids.sample,
+                  user_id: user_ids.sample,
                   hangout_id: hangouts_ids.sample
                   )
   user_hangout.save # create random user hangout relationships
@@ -291,5 +291,9 @@ request = Request.new(
                      status: 2
                      )
 request.save
+
+# 100.times do
+# create random requests
+# end
 
 puts "all done"
