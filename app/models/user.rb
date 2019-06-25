@@ -14,10 +14,20 @@ class User < ApplicationRecord
 
 
   def search_by_preferences
-
     my_hangout_ids = self.user_hangouts.pluck(:hangout_id)
     matched_user_ids = UserHangout.where(hangout_id: my_hangout_ids).where("user_id != ?", self.id).pluck(:user_id).uniq
-    User.where(id: matched_user_ids).where("gender = ? OR gender = 0", looking_for_gender)
+
+    denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
+    denied_ids = denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
+    
+    matched_user_ids.delete(denied_ids)
+
+    results = matched_user_ids.reject{|id| denied_ids.include? id}
   end
 
+  def find_denied_requests
+    denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
+    denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
+  end
 end
+# User.find(3).find_denied_requests

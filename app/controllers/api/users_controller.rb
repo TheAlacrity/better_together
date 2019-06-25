@@ -2,7 +2,18 @@ class Api::UsersController < ApplicationController
   before_action :authenticate_user, only: [:index, :show, :update, :destroy]
 
   def index
-    @users = User.all
+
+    # gender = params[:looking_for_gender]
+    # role = params[:looking_for_role]
+
+    @users = current_user.search_by_preferences
+
+    # @users.each do |user|
+    #   if user.status == 2
+    #     @users.delete[user]
+    #   end      
+    # end
+
     render 'index.json.jbuilder'
   end
 

@@ -202,17 +202,9 @@ user_hangout = UserHangout.new(
                               )
 user_hangout.save
 
-# hangouts = Hangout.all
 hangouts_ids = Hangout.pluck(:id)
-# hangouts.each do |hangout|
-#   hangouts_ids << hangout.id
-# end
-
 user_ids = User.pluck(:id)
-# users_ids = []
-# users.each do |user|
-#   users_ids << user.id
-# end
+
 
 1000.times do
   user_hangout = UserHangout.new(

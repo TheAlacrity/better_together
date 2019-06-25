@@ -5,4 +5,5 @@ class Request < ApplicationRecord
   validates :requester_id, uniqueness: {scope: :requestee_id}
 
   enum status: {pending: 0, confirmed: 1, denied: 2}
+
 end
