@@ -11,12 +11,18 @@ class Api::RequestsController < ApplicationController
 
     if request && request.pending? && params[:approval] == "true"
       request.confirmed!
-    elsif request && params[:approval] == "false"
-      request.denied!
+    elsif request && request.status == nil
+      request.pending!
     elsif !request
-      request = Request.new(requester_id: params[:requester_id], requestee_id: params[:requestee_id])
+      request = Request.new(
+                            requester_id: params[:requester_id], 
+                            requestee_id: params[:requestee_id]
+                            )
       request.save
+      request.pending! if params[:approval] == "true"
     end
+
+    request.denied! if params[:approval] == "false"
 
     render json: {status: request.status}
   end
