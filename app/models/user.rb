@@ -29,21 +29,20 @@ class User < ApplicationRecord
     matched_user_ids = UserHangout.where(hangout_id: my_hangout_ids).where("user_id != ?", self.id).pluck(:user_id).uniq
 
     denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
-
     old_requests = Request.all.where("requester_id = ?", self.id)
 
-    old_ids = old_requests.pluck(:requestee_id).uniq
-
     denied_ids = denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
+    old_ids = old_requests.pluck(:requestee_id).uniq
     
     ids_to_check = matched_user_ids - denied_ids - old_ids
 
     if ids_to_check.any?
-      User.where(id: ids_to_check).where("gender = ? OR gender = 0", looking_for_gender.to_i)
+      users = User.where(id: ids_to_check)
+      return users.where("gender = ?", 1) if self.looking_for_gender == "men"
+      return users.where("gender = ?", 2) if self.looking_for_gender == "women"        
+      users
     else
       User.where(id: nil)
     end
   end
-
-
 end
