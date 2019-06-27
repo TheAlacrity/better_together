@@ -30,5 +30,7 @@ Rails.application.routes.draw do
     post '/requests' => 'requests#create'
     get '/requests/:id' => 'requests#show'
     delete '/requests/:id' => 'requests#destroy'
+
+    get '/matches' => 'matches#index'
   end
 end

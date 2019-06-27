@@ -75,7 +75,7 @@ sessions = User.new(
                )
 sessions.save
 
-400.times do # Create 400 fake male users
+40.times do # Create fake male users
   name = Faker::Name.unique.male_first_name
   about_me = Faker::Hacker.say_something_smart
 
@@ -95,7 +95,7 @@ sessions.save
   puts "user num: #{user.id}"
 end
 
-400.times do # Create 400 fake female users
+40.times do # Create fake female users
   name = Faker::Name.unique.female_first_name
   about_me = Faker::Hacker.say_something_smart
 
@@ -115,7 +115,7 @@ end
   puts "user num: #{user.id}"
 end
 
-400.times do # Create 100 prefer_not_to_say users
+10.times do # Create prefer_not_to_say users
   name = Faker::Name.unique.first_name
   about_me = Faker::Hacker.say_something_smart
 
@@ -245,55 +245,62 @@ hangouts_ids = Hangout.pluck(:id)
 user_ids = User.pluck(:id)
 
 
-1000.times do
+200.times do
   user_hangout = UserHangout.new(
                   user_id: user_ids.sample,
                   hangout_id: hangouts_ids.sample
                   )
   user_hangout.save # create random user hangout relationships
-  puts "hangout num: #{user_hangout.id}"
+  puts "user_hangout num: #{user_hangout.id}"
 end
 
 puts "user_hangout connections done, requests starting"
 
 
-request = Request.new(                   
-                     requester_id: ciri.id,
-                     requestee_id: yen.id,
-                     status: 0
-                     )
-request.save
+# request = Request.new(                   
+#                      requester_id: ciri.id,
+#                      requestee_id: yen.id,
+#                      status: 0
+#                      )
+# request.save
 
-request = Request.new(                   
-                     requester_id: jeff.id,
-                     requestee_id: ciri.id,
-                     status: 0
-                     )
-request.save
+# request = Request.new(                   
+#                      requester_id: jeff.id,
+#                      requestee_id: ciri.id,
+#                      status: 0
+#                      )
+# request.save
 
-request = Request.new(                   
-                     requester_id: ciri.id,
-                     requestee_id: jeff.id,
-                     status: 0
-                     )
-request.save
+# request = Request.new(                   
+#                      requester_id: ciri.id,
+#                      requestee_id: jeff.id,
+#                      status: 0
+#                      )
+# request.save
 
-request = Request.new(                   
-                     requester_id: sessions.id,
-                     requestee_id: ciri.id,
-                     status: 0
-                     )
-request.save
+# request = Request.new(                   
+#                      requester_id: sessions.id,
+#                      requestee_id: ciri.id,
+#                      status: 0
+#                      )
+# request.save
 
-request = Request.new(                   
-                     requester_id: ciri.id,
-                     requestee_id: sessions.id,
-                     status: 2
-                     )
-request.save
+# request = Request.new(                   
+#                      requester_id: ciri.id,
+#                      requestee_id: sessions.id,
+#                      status: 2
+#                      )
+# request.save
 
-# 100.times do
-# create random requests
-# end
+users = User.all
+
+20.times do
+  id_send = rand(6..users.length)
+  id_receive = rand(1..5)
+  Request.create(
+                 requester_id: id_send,
+                 requestee_id: id_receive
+                 )
+end
 
 puts "all done"

@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   has_many :user_hangouts
   has_many :hangouts, through: :user_hangouts
-  has_many :requests
+  # has_many :requests
 
   validates :email, presence: true
   validates :email, uniqueness: true
@@ -46,5 +46,15 @@ class User < ApplicationRecord
     else
       User.where(id: nil)
     end
+  end
+
+  def confirmed_matches
+
+    confirmed_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 1)
+
+    confirmed_match_ids = confirmed_requests.pluck(:requestee_id, :requester_id).flatten.uniq
+    confirmed_match_ids.delete(self.id)
+
+    matches = User.where(id: confirmed_match_ids)
   end
 end
