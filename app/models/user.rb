@@ -30,11 +30,13 @@ class User < ApplicationRecord
 
     denied_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 2)
     old_requests = Request.all.where("requester_id = ?", self.id)
+    confirmed_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 1)
 
     denied_ids = denied_requests.pluck(:requestee_id, :requester_id).flatten.uniq
     old_ids = old_requests.pluck(:requestee_id).uniq
+    confirmed_ids = confirmed_requests.pluck(:requestee_id, :requester_id).flatten.uniq
     
-    ids_to_check = matched_user_ids - denied_ids - old_ids
+    ids_to_check = matched_user_ids - denied_ids - old_ids - confirmed_ids
 
     if ids_to_check.any?
       users = User.where(id: ids_to_check)
