@@ -57,4 +57,13 @@ class User < ApplicationRecord
 
     matches = User.where(id: confirmed_match_ids)
   end
+
+  def common_hangouts(compared_user)
+    my_hangout_ids = self.hangouts.pluck(:id)
+    their_hangout_ids = compared_user.hangouts.pluck(:id)
+
+    shared_hangout_ids = my_hangout_ids & their_hangout_ids
+
+    shared_hangouts = Hangout.where(id: shared_hangout_ids)
+  end
 end
