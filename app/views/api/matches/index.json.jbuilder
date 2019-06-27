@@ -10,5 +10,5 @@ json.array! @users.each do |user|
   # json.friendly_updated_at user.friendly_updated_at
   
   # list of hangouts in common
-  # json.common_hangouts user.common_hangouts(current_user)
+  json.common_hangouts user.common_hangouts(current_user)
 end

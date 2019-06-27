@@ -49,7 +49,6 @@ class User < ApplicationRecord
   end
 
   def confirmed_matches
-
     confirmed_requests = Request.all.where("requester_id = ? OR requestee_id = ?", self.id, self.id).where(status: 1)
 
     confirmed_match_ids = confirmed_requests.pluck(:requestee_id, :requester_id).flatten.uniq

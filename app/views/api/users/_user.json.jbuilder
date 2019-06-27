@@ -8,6 +8,8 @@ json.age user.age
 json.gender user.gender
 json.looking_for_gender user.looking_for_gender
 json.looking_for_role user.looking_for_role
+json.friendly_looking_for_gender user.friendly_looking_for_gender
+json.friendly_looking_for_role user.friendly_looking_for_role
 
 json.hangouts do 
   json.array! user.hangouts, partial: "api/hangouts/hangout", as: :hangout
