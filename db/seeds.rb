@@ -77,16 +77,17 @@ sessions.save
 
 40.times do # Create fake male users
   name = Faker::Name.unique.male_first_name
+  email_name = name.downcase
   about_me = Faker::Hacker.say_something_smart
 
   user = User.new(
                   username: "#{name}",
                   first_name: "#{name}",
-                  email: "#{name}@gmail.com",
+                  email: "#{email_name}@gmail.com",
                   password: "password",
                   password_confirmation: "password",
                   about: "#{about_me}",
-                  age: rand(18..85),
+                  age: rand(18..40),
                   gender: 1,
                   looking_for_gender: rand(0..2),
                   looking_for_role: rand(0..2)
@@ -102,11 +103,11 @@ end
   user = User.new(
                   username: "#{name}",
                   first_name: "#{name}",
-                  email: "#{name}@gmail.com",
+                  email: "#{email_name}@gmail.com",
                   password: "password",
                   password_confirmation: "password",
                   about: "#{about_me}",
-                  age: rand(18..85),
+                  age: rand(18..40),
                   gender: 2,
                   looking_for_gender: rand(0..2),
                   looking_for_role: rand(0..2)
@@ -122,11 +123,11 @@ end
   user = User.new(
                   username: "#{name}",
                   first_name: "#{name}",
-                  email: "#{name}@gmail.com",
+                  email: "#{email_name}@gmail.com",
                   password: "password",
                   password_confirmation: "password",
                   about: "#{about_me}",
-                  age: rand(18..85),
+                  age: rand(18..40),
                   gender: 0,
                   looking_for_gender: rand(0..2),
                   looking_for_role: rand(0..2)
