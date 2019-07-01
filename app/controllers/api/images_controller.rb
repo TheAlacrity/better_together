@@ -9,8 +9,8 @@ class Api::ImagesController < ApplicationController
                        user_id: params[:user_id],
                        file: params[:file]
                        )
-    @images = Image.all
-    render 'index.json.jbuilder'
+    @image.save
+    render json: {message: "you did it!"}
   end
 
   def show

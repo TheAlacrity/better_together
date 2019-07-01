@@ -14,3 +14,7 @@ json.friendly_looking_for_role user.friendly_looking_for_role
 json.hangouts do 
   json.array! user.hangouts, partial: "api/hangouts/hangout", as: :hangout
 end
+
+json.images do 
+  json.array! user.images, partial: "api/images/image", as: :image
+end
