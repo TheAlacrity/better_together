@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     patch '/users/:id' => 'users#update'
     delete '/users/:id' => 'users#destroy'
 
+    get '/images' => 'images#index'
+    post '/images' => 'images#create'
+    get '/images/:id' => 'images#show'
+    patch '/images/:id' => 'images#update'
+    delete '/images/:id' => 'images#destroy'
+
     post '/sessions' => 'sessions#create'
 
     get '/hangouts' => 'hangouts#index'
