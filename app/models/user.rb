@@ -42,8 +42,11 @@ class User < ApplicationRecord
 
     if ids_to_check.any?
       users = User.where(id: ids_to_check)
-      return users.where("gender = ?", 1) if self.looking_for_gender == "men"
-      return users.where("gender = ?", 2) if self.looking_for_gender == "women"        
+
+      unless User.looking_for_genders[self.looking_for_gender] == 0
+        return users.where("gender = ?", User.looking_for_genders[self.looking_for_gender])
+      end
+      
       users
     else
       User.where(id: nil)
