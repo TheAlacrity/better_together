@@ -72,6 +72,6 @@ class User < ApplicationRecord
   end
 
   def message_thread(recipient_id)
-    Message.all.where("sender_id = ? AND recipient_id = ?", self.id, recipient_id)
+    my_messages = Message.all.where("sender_id = ? AND recipient_id = ? OR recipient_id = ? AND sender_id = ?", self.id, recipient_id, self.id, recipient_id).order(created_at: :desc)
   end
 end
