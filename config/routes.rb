@@ -38,5 +38,11 @@ Rails.application.routes.draw do
     delete '/requests/:id' => 'requests#destroy'
 
     get '/matches' => 'matches#index'
+
+    get '/messages' => 'messages#index'
+    get '/messages' => 'messages#index'
+    post '/messages' => 'messages#create'
+    get '/messages/:id' => 'messages#show'
+    delete '/messages/:id' => 'messages#destroy'
   end
 end

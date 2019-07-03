@@ -306,19 +306,21 @@
 
 # puts "all done"
 
-require "http"
+# require "http"
 
-response = HTTP.get('https://randomuser.me/api/?gender=female&inc=name,picture&results=10')
-data = response.parse
-ciri = User.find(3)
+# response = HTTP.get('https://randomuser.me/api/?gender=female&inc=name,picture&results=10')
+# data = response.parse
+# ciri = User.find(3)
 
-picture = data['results'][0]['picture']['medium']
-image = Image.new(
-                  file: picture, # picture
-                  user_id: ciri.id
-                  )
-image.save
-image.errors.full_messages
+# picture = data['results'][0]['picture']['large']
+# p picture
+
+# image = Image.new(
+#                   file: picture, # picture
+#                   user_id: ciri.id
+#                   )
+# image.save
+# image.errors.full_messages
 
 
 # index = 0
@@ -361,5 +363,26 @@ image.errors.full_messages
 
 #   index += 1
 # end
+image_number = 6
+id_of_user = image_number
+while image_number < 100 # male images
+  image = Image.new(
+                    user_id: "#{id_of_user}",
+                    image_url: "https://randomuser.me/api/portraits/men/#{image_number}.jpg"
+                    )
+  image.save
+  id_of_user += 1
+  image_number += 1
+end
 
-
+image_number = 6
+id_of_user = 100
+while image_number < 100 # female images
+  image = Image.new(
+                    user_id: "#{id_of_user}",
+                    image_url: "https://randomuser.me/api/portraits/female/#{image_number}.jpg"
+                    )
+  image.save
+  image_number += 1
+  id_of_user += 1
+end
