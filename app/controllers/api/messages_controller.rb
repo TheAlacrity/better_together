@@ -3,9 +3,12 @@ class Api::MessagesController < ApplicationController
 
   def index
     if current_user
+      p "*" * 50
+      p current_user
+      p params[:recipient_id]
+      p "*" * 50
       @messages = current_user.message_thread(params[:recipient_id])
       render 'index.json.jbuilder'
-
     else
       render json: {message: "You must be logged in to view messages."}
     end
@@ -22,7 +25,7 @@ class Api::MessagesController < ApplicationController
 
       ActionCable.server.broadcast "messages_channel", {
         id: @message.id,
-        name: @message.user.username,
+        name: @message.sender.username,
         body: @message.body,
         created_at: @message.created_at
       }

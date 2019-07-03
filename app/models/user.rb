@@ -71,7 +71,7 @@ class User < ApplicationRecord
     shared_hangouts = Hangout.where(id: shared_hangout_ids)
   end
 
-  def message_thread(recipient)
-    Message.all.where("sender_id = ? AND recipient_id = ?", self.id, recipient.id)
+  def message_thread(recipient_id)
+    Message.all.where("sender_id = ? AND recipient_id = ?", self.id, recipient_id)
   end
 end
