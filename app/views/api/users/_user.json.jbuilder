@@ -11,8 +11,8 @@ json.looking_for_role user.looking_for_role
 json.friendly_looking_for_gender user.friendly_looking_for_gender
 json.friendly_looking_for_role user.friendly_looking_for_role
 
-json.hangouts do 
-  json.array! user.hangouts, partial: "api/hangouts/hangout", as: :hangout
+json.user_hangouts do 
+  json.array! user.user_hangouts, partial: "api/user_hangouts/user_hangout", as: :user_hangout
 end
 
 json.images do 
