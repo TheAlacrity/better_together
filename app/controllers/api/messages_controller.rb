@@ -17,16 +17,24 @@ class Api::MessagesController < ApplicationController
                             recipient_id: params[:recipient_id],
                             body: params[:body]
                             )
-      @message.save
-
-      ActionCable.server.broadcast "messages_channel", {
-        id: @message.id,
-        name: @message.sender.first_name,
-        body: @message.body,
-        sender_id: @message.sender_id,
-        created_at: @message.created_at
-      }
       
+      if @message.save
+
+        ActionCable.server.broadcast "messages_channel", {
+          id: @message.id,
+          name: @message.sender.first_name,
+          body: @message.body,
+          sender_id: @message.sender_id,
+          recipient_id: @message.recipient_id,
+          created_at: @message.created_at
+        }
+      else
+        puts "=" * 50
+        p @message.errors.full_messages
+        puts "=" * 50
+
+      end
+
       render "show.json.jbuilder"
   
     else
