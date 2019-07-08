@@ -8,6 +8,8 @@ json.age user.age
 json.gender user.gender
 json.looking_for_gender user.looking_for_gender
 json.looking_for_role user.looking_for_role
+
+json.friendly_gender user.friendly_gender
 json.friendly_looking_for_gender user.friendly_looking_for_gender
 json.friendly_looking_for_role user.friendly_looking_for_role
 
@@ -18,3 +20,5 @@ end
 json.images do 
   json.array! user.images, partial: "api/images/image", as: :image
 end
+
+json.default_image_url user.default_image_url

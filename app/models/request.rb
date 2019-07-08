@@ -5,9 +5,4 @@ class Request < ApplicationRecord
   validates :requester_id, uniqueness: {scope: :requestee_id}
 
   enum status: {pending: 0, confirmed: 1, denied: 2}
-
-  def friendly_updated_at
-    self.updated_at.strftime("%A, %d %b %Y %l:%M %p")
-  end
-
 end

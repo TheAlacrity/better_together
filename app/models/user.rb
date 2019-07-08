@@ -12,18 +12,36 @@ class User < ApplicationRecord
 
   enum gender: {prefer_not_to_say: 0, men: 1, women: 2}, _prefix: true
   enum looking_for_gender: {both_men_and_women: 0, men: 1, women: 2}, _prefix: true
-  enum looking_for_role: {both_friendship_and_romance: 0, romance: 1, friendship: 2}
+  enum looking_for_role: {both_friendship_and_romance: 0, romance: 1, friendship: 2}, _prefix: true
 
   def friendly_gender
-    gender.gsub("_", " ")
+    if gender_prefer_not_to_say?
+      return "(Gender not specified)"
+    elsif gender_men?
+      return "Male"
+    elsif gender_women?
+     return  "Female"
+    end
   end
 
   def friendly_looking_for_role
-    looking_for_role.gsub("_", " ")
+    if looking_for_role_both_friendship_and_romance?
+      return "friendship or romance"
+    elsif looking_for_role_romance?
+      return "romance"
+    elsif looking_for_role_friendship?
+      return "friendship"
+    end
   end
 
   def friendly_looking_for_gender
-    looking_for_gender.gsub("_", " ")
+    if looking_for_gender_both_men_and_women?
+      return "any gender identity"
+    elsif looking_for_gender_men?
+      return "men"
+    elsif looking_for_gender_women?
+      return "women"
+    end
   end
 
   def search_by_preferences
@@ -62,6 +80,12 @@ class User < ApplicationRecord
     matches = User.where(id: confirmed_match_ids)
   end
 
+  def date_matched(compared_user)
+    request = Request.find_by("requester_id = ? OR requestee_id = ? AND status = ?", self.id, self.id, 1) && 
+              Request.find_by("requester_id = ? OR requestee_id = ?", compared_user.id, compared_user.id)
+    request.updated_at.strftime("%A, %d %b %Y %l:%M %p")
+  end
+
   def common_hangouts(compared_user)
     my_hangout_ids = self.hangouts.pluck(:id)
     their_hangout_ids = compared_user.hangouts.pluck(:id)
@@ -73,5 +97,13 @@ class User < ApplicationRecord
 
   def message_thread(recipient_id)
     Message.all.where("sender_id = ? AND recipient_id = ? OR recipient_id = ? AND sender_id = ?", self.id, recipient_id, self.id, recipient_id).order(created_at: :desc)
+  end
+
+  def default_image_url
+    if images.length > 0
+      images.first.default_image_url
+    else
+      "https://i1.wp.com/crimsonems.org/wp-content/uploads/2017/10/profile-placeholder.gif?fit=250%2C250&ssl=1"
+    end
   end
 end

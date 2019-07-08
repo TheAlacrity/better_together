@@ -14,7 +14,8 @@ class Api::ImagesController < ApplicationController
   end
 
   def show
-    
+    @hangout = Hangout.find(params[:id])
+    render 'show.json.jbuilder'
   end
 
   def update
@@ -22,6 +23,9 @@ class Api::ImagesController < ApplicationController
   end
 
   def destroy
-    
+    @images = Image.find(:id)
+    if @image.destroy
+      render json: { message: "Successfully destroyed image"}
+    end
   end
 end
