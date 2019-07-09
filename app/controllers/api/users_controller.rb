@@ -8,7 +8,7 @@ class Api::UsersController < ApplicationController
     @users = User.all
 
     if search_by_current_user == "true" && limit_results
-      @users = current_user.search_by_preferences.limit(limit_results)
+      @users = current_user.search_by_preferences.order(id: :asc).limit(limit_results)
     elsif search_by_current_user == "true"
       @users = current_user.search_by_preferences
     end

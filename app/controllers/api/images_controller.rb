@@ -23,7 +23,7 @@ class Api::ImagesController < ApplicationController
   end
 
   def destroy
-    @images = Image.find(:id)
+    @image = Image.find(params[:id])
     if @image.destroy
       render json: { message: "Successfully destroyed image"}
     end
