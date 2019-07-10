@@ -28,17 +28,13 @@ class Api::MessagesController < ApplicationController
           recipient_id: @message.recipient_id,
           created_at: @message.created_at
         }
+        render "show.json.jbuilder"
       else
-        puts "=" * 50
-        p @message.errors.full_messages
-        puts "=" * 50
-
+        render json: {message: "No blank messages"}, status: :unprocessable_entity
       end
-
-      render "show.json.jbuilder"
   
     else
-      render json: {message: "You must be logged in to create messages."}
+      render json: {message: "You must be logged in to create messages."}, status: :unprocessable_entity
     end
   end
 end
